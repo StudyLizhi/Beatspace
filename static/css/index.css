@@ -1,0 +1,167 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family:  Tahoma;
+}
+
+.container {
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+    background-color: #000000;
+    height: 100vh;
+}
+
+.to-virtual {
+    height: 100%;
+    flex-grow: 1;
+    position: relative;
+}
+
+.nav-vir {
+    width: 2vw;
+    height: 5vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+}
+
+.to-virtual div p {
+    color: white;
+    font-size: 1.5vw;
+    font-family: 微软雅黑;
+
+}
+
+.square {
+    flex-grow: 4;
+    height: 100%;
+    position: relative;
+    top: 50%;
+}
+
+.square span:nth-of-type(1) {
+    position: absolute;
+    width: 35vw;
+    height: 35vw;
+    border: 2px solid #fff;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    transition: 0.5s;
+    animation: animate 6s linear infinite;
+}
+
+.square span:nth-of-type(2) {
+    position: absolute;
+    width: 37vw;
+    height: 37vw;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    border: 1px solid #fff;
+    transition: 0.5s;
+    animation: animate2 4s linear infinite;
+}
+
+.square span:nth-of-type(3) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 39vw;
+    height: 39vw;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    border: 1px solid #fff;
+    transition: 0.5s;
+    animation: animate 10s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(-180deg);
+    }
+}
+
+@keyframes animate2 {
+    0% {
+        transform: rotate(360deg);
+        /*transform: scale(1);*/
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.content {
+    position: relative;
+    color: #fff;
+    text-align: center;
+    transition: 0.5s;
+    z-index: 1000;
+}
+
+.textregion {
+    position: absolute;
+    width: 28vw;
+    height: 28vw;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+}
+
+.introduction {
+    color: #5E5E6A;
+    font-size: 1vw;
+    width: 70%;
+    margin: 0 auto;
+    text-align: left;
+    line-height: 2em;
+}
+
+.to-style {
+    position: relative;
+    height: 100%;
+    flex-grow: 1;
+}
+
+.nav-sty {
+    width: 2vw;
+    height: 10vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+}
+
+.to-style div p {
+    color: white;
+    font-size: 1.5vw;
+    font-family: 微软雅黑;
+}
+#attention{
+    color:#E53FF2;
+    opacity: 0.5;
+    font-size: 1vw;
+    right: 30vw;
+    left: 30vw;
+    margin: auto;
+    bottom:2vh;
+}

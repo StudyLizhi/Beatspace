@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>BeatSpace Visualization</title>
+    <link rel="stylesheet" href="{% static "/css/vitualization-main.css" %}">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_2114082_9bfcpwswexc.css">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="{% static "/js/three.min.js" %}"></script>
+    <script src="{% static "/js/get-float-time-domain-data.js" %}"></script>
+    <script src="{% static "/js/dat.gui.min.js" %}"></script>
+    <script src="{% static "/js/OrbitControls.js" %}"></script>
+    <script src="{% static "/js/CanvasRenderer.js" %}"></script>
+    <script src="{% static "/js/Projector.js" %}"></script>
+</head>
+
+<body>
+
+
+    <header class="header">
+        <section class="top">
+            <div id="web-title">
+                <div class="logo">
+                    <img src="{% static "/img/logo_v3.gif" %}" alt="logo">
+                </div>
+            </div>
+            <div id="search">
+                <div id='search-box'>
+                    <div id="search-box-icons">
+                        <div id="play" style="padding-top: 2vh"><i style="font-size: 40px;padding-left: 5px" class="iconfont iconbofang"></i></div>
+                        <!--                        <div id="pause"><i style="font-size: 40px; padding-left: 5px" class="iconfont iconzanting"></i></div>-->
+                    </div>
+                    <div id="loader">
+                        <div id="play-effect">
+                            <div class="mask"></div>
+                            <img src="{% static "/img/loader_active.png" %}" alt="loader">
+                            <img id='scroll-audio' src="{% static "/img/loader.png" %}" alt="loader">
+                        </div>
+                    </div>
+                    <div id="timebar" style="margin-left:1vw;width:8vw; height:2vh;line-height:2vh;font-size:0.5vw;"><div id="showtime">00:00/00:00</div></div>
+                </div>
+            </div>
+            <div id="load-demo">Load Demo</div>
+            <div id="user">
+                {% if request.session.is_login %}
+                <div class="login">
+                    <span class="shape"><a href="{% url "login_new" %}">{{ request.session.user_name }}<i class="iconfont iconuser1" style="font-size: 1.2em"></i></a></span>
+                    <span class="shape"><a href="{% url "logout" %}">logout<i class="iconfont iconregistered" style="font-size: 1.2em"></i></a></span>
+{#                    <form action="upload/" method="POST" enctype="multipart/form-data">#}
+{#                        {% csrf_token %}#}
+{#                        <input type="file" id="userIcon" name="userIcon">#}
+{#                        <input type="submit" id="uploadIcon">#}
+{#                    </form>#}
+                </div>
+                {% else %}
+                <div class="login">
+                    <span class="shape"><a href="{% url "login_new"%}">Login<i class="iconfont iconuser1" style="font-size: 1.2em"></i></a></span>
+                    <span class="shape"><a href="{% url "register" %}">Register<i class="iconfont iconregistered" style="font-size: 1.2em"></i></a></span>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+    </header>
+
+
+    <div class="content">
+
+        <div id="back-to-stylized" style="color: white"><a href="{% url "audio" %}">返回风格化<i class="iconfont iconright"></i></a></div>
+        <div id='open-menu' style="color: white"><i class="iconfont iconback"></i></div>
+        <nav class="menu">
+            <ul class="navbar">
+                <li id="spiral">Spiral</li>
+                <li id="wavy">WavySpiral</li>
+                <li id="flower">Flower</li>
+                <li id="circle">Circle</li>
+                <li id="hyperbola">Hyperbola</li>
+                <li id="hybrid">Hybrid</li>
+                <li id="donut">Donut</li>
+                <li id="show-more">show more</li>
+            </ul>
+        </nav>
+        <div id="'more-effects" style="display: none; background-color: #000">
+            <div>Spiral</div>
+            <div>WavySpiral</div>
+            <div>Flower</div>
+        </div>
+        <div class='moveGUI'>
+        </div>
+    </div>
+    <div ></div>
+    <div id="attention"><span style="font-size: 2vw">Attention</span> <br> Your audio files are necessary for better enjoying! <br>Please drag them into your web page!</div>
+    <script src="{% static "/js/AudioLoader.js" %}"></script>
+    <script src="{% static "/js/spiral.js" %}"></script>
+</body>
+
+</html>

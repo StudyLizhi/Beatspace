@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <title>BeatSpace Audio Processing</title>
+    <link rel="stylesheet" href="{% static "/css/stylized-main.css" %}">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_2114082_lnrqtybqr6o.css">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="{% static "/js/AudioProcessing.js" %}"></script>
+    <script src="{% static "/js/lame.all.js" %}"></script>
+</head>
+<body>
+    <header class="header">
+        <section class="top">
+            <div id="web-title">
+            <div class="logo">
+                <img src="{% static "/img/logo_v3.gif" %}" alt="logo">
+            </div>
+            </div>
+            <div id="attention"><span style="font-size: 2vw">Attention</span> <br> Your audio files are necessary for better enjoying! <br>Please drag them into your web page!</div>
+            <div id="user">
+                <div class="login">
+                    <span class="shape" id="usr_login"><a href="{% url "login_new" %}" style="text-decoration: none"><span id="username" style="text-decoration: none">{{ username }}</span><i class="iconfont iconuser1" style="font-size: 1.2em"></i></a></span>
+                    <span class="shape" id="usr_register"><a href="{% url "register" %}" style="text-decoration: none"><i class="iconfont iconregistered" style="font-size: 1.2em"></i>Register</a></span>
+                </div>
+            </div>
+        </section>
+    </header>
+    <div id="log" style="height: 250vh;display: none;position: fixed;z-index: 1000">
+    </div>
+    <div id="back-to-vitual" style="color: white"><a href="{% url "virtual" %}" style="text-decoration: none"><i class="iconfont iconback"></i>返回可视化</a></div>
+{#   <nav class="menu" style="display: none">#}
+{#        <ul class="navbar">#}
+{#            <li id='delay'><a href="#stylechange">效果器</a></li>#}
+{#            <li id="distortion"><a href="#convolver">混响</a></li>#}
+{#        </ul>#}
+{#    </nav>#}
+    <div id="download" style="border-top:3px solid white;border-left:2px solid white;z-index:500;background-color:black;position:fixed;width:40vw;height: 20vh;bottom:0;right: 0;right: 0;top: 30vh">
+        <div style="width: 100%;height: 20%;padding-top: 2vh;padding-bottom: 2vh;text-align: center">
+            <button type="button" id="record" style="font-size:20px;background-color:black;color:white;width:40%;height: 100%;"><b>Start Record</b></button>
+            <button type="button" id="stop_record" style="font-size:20px;background-color:black;color:white;width:40%;height: 100%;"><b>Stop Record</b></button>
+            <br><br>
+            <button type="button" id="get_full_audio" style="font-size:20px;background-color:black;color:white;width:80%;height: 100%;"><b>Get Full Audio</b></button>
+            <br>
+            <button type="button" id="upload_audio" style="font-size:20px;background-color:black;color:white;width:80%;height: 100%;"><b>Upload Audio</b></button>
+        </div>
+    </div>
+    <div id="upload" style="border: 2px solid white; position: fixed; right: 0; top:15vh;width: 30vw;height: 15vh;z-index: 400">
+        <div style="text-align: center;height: 3vh;line-height: 3vh;width: 100%;position: relative;cursor: pointer;color: white;background: black;border: 1px solid #ddd;border-radius: 4px;overflow: hidden;display: inline-block;*display: inline;*zoom: 1;margin-left: 5vm;">
+            <input type="file" id="open_local_file" value="open local file" style="position: absolute;width: 60%;font-size: 15px;right: 0;top: 0;left: 0;bottom: 0;margin: auto;opacity: 0;filter: alpha(opacity=0);cursor: pointer;"><b>Open Local File</b>
+        </div>
+        <ul id="recordingslist" style="display: flex;flex-direction: column;justify-content: center;"></ul>
+    </div>
+    <div id='total-controller' style="z-index:600;background-color:#000;position:fixed;width:40vw;height: 50vh;bottom:0;right: 0;border-left: 2px solid white;margin-left: 60vh;margin-top: 60vh;overflow: hidden">
+        <div id="load-demo">Load Demo</div>-->
+        <div class="controller" style="z-index:100">
+            <div id="play-loader">
+                <div id="loader">
+                    <div class="mask" ></div>
+                    <img id='scroll-audio-active' style="width: 30vw;display: inline-block;" src="{% static '/img/loader_active.png' %}" alt="loader">
+                    <img id='scroll-audio' src="{% static "/img/loader.png" %}" alt="loader">
+                </div>
+            </div>
+            <div id="semi-controller">
+                <div class="play" style="right: -5%"><i id='play' class="iconfont iconbofang"></i></div>
+                <div id="controll-volumn" style="left: 5vw">
+                    <img src="{% static "/img/volume.svg" %}" alt="">
+                    <input name='controll-volume' id='volume' type="range" min="0" max="1" step="0.01" style="width: 20vw">
+                </div>
+                <div id="showtime">00:00 / 00:00</div>
+            </div>
+        </div>
+    </div>
+    <canvas id="wrap"></canvas>
+    <!--    效果器-->
+    <div id="style-change">
+        <a name="stylechange"></a>
+        <img src="{% static "/img/logo_v3.gif" %}" style="display:block;padding-top:20px;margin:0 auto;height: 20vh">
+        <div class="parabox">
+            <div class="effect-box">
+                <p id="label-delay">DELAY</p>
+            </div>
+            <div class="effect-box">
+                <p id="label-dtsn">DISTORTION</p>
+            </div>
+            <div class="effect-box">
+                <p id="label-filter">FILTER</p>
+            </div>
+        </div>
+        <div class="add-effect">
+            <p id="add-delay">Add Delay</p>
+            <p id="add-dtsn" style="display: none">Add Distortion</p>
+            <p id="add-filter" style="display: none">Add Filter</p>
+            <div class="check-box">
+                <input id='delaynode'type="checkbox" name="type-effect" value="add-effect" style="width: 1.5vw;height: 4vh">
+                <input id='irrnode'type="checkbox" name="type-effect" value="add-effect" style="width: 1.5vw;height: 4vh">
+                <input id='distortionnode'type="checkbox" name="type-effect" value="add-effect" style="width: 1.5vw;height: 4vh">
+            </div>
+
+        </div>
+        <div class="scroll-box" id="scroll-delay" >
+            <div class="scroll-idx">
+                <p>Volume</p>
+                <input name='delay-volume' id='delay-volume'type="range" min="0" max="1" step="0.01" value="0.5" >
+            </div>
+            <div class="scroll-idx" >
+                <p>Time</p>
+                <input name = 'delay-time' id='delay-time' type="range" min="0" max="1" step="0.01" value="0.5" >
+            </div>
+            <div class="scroll-idx">
+                <p>FeedBack</p>
+                <input name ='delay-feedback' id='delay-feedback' type="range" min="0" max="1" step="0.01" value="0.5">
+            </div>
+        </div>
+        <div class="scroll-box" id="scroll-dtsn" style="display: none">
+            <div class="scroll-idx">
+                <p>Volumn</p>
+                <input name='distortion-volume' type="range" min="0" max="1" step="0.01" value="0.5" id="distortion-volume">
+            </div>
+            <div class="scroll-idx" >
+                <p>OverSample</p>
+                <input name='distortion-oversample'type="range" min="0" max="1" step="0.01" value="0.5" id="distortion-oversample">
+            </div>
+            <div class="scroll-idx">
+                <p>Amount</p>
+                <input name='distortion-amount' type="range" min="0" max="1" step="0.01" value="0.5" id="distortion-amount">
+            </div>
+        </div>
+        <div class="scroll-box" id="scroll-filter" style="display: none">
+            <div class="scroll-idx">
+                <p style="display: inline-block; padding-left:0;padding-right: 2vw;margin-left: 0">Type</p>
+                <div style=" margin-left:0;display: inline-block;position: relative">
+                    <input id='filter-choice' style="text-align:center;color:white; background-color:#000;width: 24vw;height: 5vh; display: inline-block;border-radius: 30px;border: 1px solid white " value="FilterType" />
+                    <div style="display: none" id="filter-selector">
+                        <ul style="list-style: none;margin: 0;padding: 0;text-align: center;">
+                            <li id="lowpass">LowPass</li>
+                            <li id="highpass">HighPass</li>
+                            <li id="lowshelf">LowShelf</li>
+                            <li id="highshelf">HighShelf</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="scroll-idx" >
+                <p>Volume</p>
+                <input name='filter-volume' type="range" min="0" max="1" step="0.01" value="0.5" id="filter-volume">
+            </div>
+            <div class="scroll-idx">
+                <p>Frequency</p>
+                <input name='filter-frequency'type="range" min="0" max="1" step="0.01" value="0.5" id="filter-frequency">
+            </div>
+            <div class="scroll-idx">
+                <p>Gain</p>
+                <input name='filter-gain' type="range" min="0" max="1" step="0.01" value="0.5" id="filter-gain">
+            </div>
+        </div>
+    </div>
+<!--    混响-->
+    <div class="convolver">
+        <a name="convolver"></a>
+        <div id='convolve-box'>
+            <div class="convolve-column">
+                <div id="convolve-forest">
+                    <div id="convolve-forest-front" class="card front"><p>Forest</p></div>
+                    <div id="convolve-forest-back" class="card back"><p>Forest</p></div>
+                </div>
+                <div id="convolve-church">
+                    <div id="convolve-church-front" class="card front"><p>Church</p></div>
+                    <div id="convolve-church-back" class="card back"><p>Church</p></div>
+                </div>
+            </div>
+            <div class="convolve-column">
+                <div id="convolve-drain">
+                    <div id="convolve-drain-front" class="card front"><p>Drain</p></div>
+                    <div id="convolve-drain-back" class="card back"><p>Drain</p></div>
+                </div>
+                <div id="convolve-launch">
+                    <div id="convolve-launch-front" class="card front"><p>Launch</p></div>
+                    <div id="convolve-launch-back" class="card back"><p>Launch</p></div>
+                </div>
+            </div>
+        </div>
+        <div id="isConvolve">
+            <div id="convolve-status"><div id="pointer-convolve">Convolve Status: Off</div></div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="footer-wrap">
+            <div class="footer-left">
+                <p class="footer-title">Beats Space</p>
+                <p class="footer-intro">We're a passionate team that loves and enjoys music.<br/>working hard to build quality music visualizations and provide more visual feasts for music lovers!</p>
+                <p>Web前端开发, powered by Team 13.<br>
+                    转载内容版权归作者及来源网站所有，本站原创内容转载请注明来源.<br>
+                </p>
+            </div>
+            <div class="footer-right">
+                <p class="footer-links">友情连接</p>
+                <table class="footer-contact-table">
+                    <tr>
+                        <td>联系邮箱</td>
+                        <td>eularbernoulli@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <td style="padding-right: 30px">联系手机</td>
+                        <td>15600719866</td>
+                    </tr>
+                    <tr>
+                        <td>联系地址</td>
+                        <td>北京邮电大学西土城路10号</td>
+                    </tr>
+                </table>
+                <p class="footer-copyright">
+                    Copyright© 2020.Web前端开发
+                    <br>
+                    Version:0.1.1
+                </p>
+
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="content-wrapper bg-dark text-white">
+
+    <div class="bg-gradient-dark text-white text-center">
+        <h1 class="display-4">Hi, {{ username }}</h1>
+        <h1 class="display-4">Here's Your Collection</h1>
+    </div>
+    <div class="row mt-5">
+        <div class="col-2"></div>
+        <div class="col-8">
+            {% for audio in audios %}
+                <div class="card w-100 h-auto bg-gradient-white text-black" >
+                    <div class="card-body">
+                        <h5 class="card-title">{{ audio.audio_name }}</h5>
+                        <p class="card-text">上传时间: {{ audio.audio_time}}</p>
+{#                        <p>{{ audio.audio_link }}</p>#}
+                        <a href="{% url "downloadAudio" audio.audio_link %}" class="btn btn-primary">Get Audio File</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    <div class="col-2"></div>
+    </div>
+    </div>
+{% endblock %}

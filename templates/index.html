@@ -1,0 +1,62 @@
+<!--
+    首页 包含两个页面的跳转以及开场动画
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Beat Space</title>
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_2114082_lnrqtybqr6o.css">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body style="overflow-y: hidden; width: 100vm; height: 100vh; background-color: #000">
+    <!--开场gif-->
+    <div>
+        <img src="../static/img/logo_full.gif" id="mypic" onclick="himg()" style="position:absolute;top: 0;bottom:0;left:0;right:0;margin:auto;width: 100%;">
+    </div>
+    <!--    说明及链接    -->
+    <div class="container" style="display: none">
+        <!--    可视化部分   -->
+        <div class="to-virtual">
+
+            <div class="nav-vir">
+                <a href="/virtual">
+                    <p style="font-family: 微软雅黑">音<br>乐<br>可<br>视<br>化<br><i class="iconfont iconback"></i></p>
+                </a>
+            </div>
+        </div>
+        <!--    说明部分    -->
+        <div class="square">
+        <div class="content">
+            <span></span>
+            <span></span>
+            <span></span>
+            <div class="textregion">
+                <img src="../static/img/logo_v3.gif" alt="logo" class="logo" style="width: 240px;padding-top: 25px;">
+                <p class="introduction" style="word-break: break-word">We're a passionate team that loves and enjoys music. We keep working hard to build quality music visualizations and provide more visual feasts for music lovers!</p>
+                <div id="attention"><div style="font-size: 2vw">Attention</div> Your audio files are necessary for better enjoying! <br>Please drag them into your web page!</div>
+            </div>
+        </div>
+    </div>
+        <!--    风格化部分   -->
+        <div class="to-style">
+            <div class="nav-sty">
+                <a href="{% url "audio" %}">
+                    <p>音<br>乐<br>风<br>格<br>化<br><i class="iconfont iconright"></i></p>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        $('div.container').hide();
+        function himg() {
+            $('div.container').fadeIn('slow');
+            $('#mypic').fadeOut("slow")
+        }
+    </script>
+</body>
+
+</html>

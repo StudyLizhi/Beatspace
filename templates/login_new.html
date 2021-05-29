@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Login</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" /> -->
+    <!-- MDB -->
+    <link rel="stylesheet" href="{% static '/css/mdb.min.css' %}" />
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="{% static '/css/style.css' %}" />
+</head>
+<body>
+      <!--Main Navigation-->
+  <header>
+    <style>
+      #intro {
+        background-image: url({% static '/img/wp-3.jpg' %});
+        height: 100vh;
+      }
+
+      /* Height for devices larger than 576px */
+      @media (min-width: 992px) {
+        #intro {
+          margin-top: -58.59px;
+        }
+      }
+
+      .navbar .nav-link {
+        color: #fff !important;
+      }
+    </style>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark d-none d-lg-block" style="z-index: 2000;">
+      <div class="container-fluid">
+        <!-- Navbar brand -->
+        <a class="navbar-brand nav-link" target="_blank" href="{% url "index:home" %}">
+          <strong>BeatSpace</strong>
+        </a>
+        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarExample01"
+          aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarExample01">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" aria-current="page" href="{% url "index:home" %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url "audio" %}" rel="nofollow"
+                target="_blank">Audio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url "virtual" %}" target="_blank">
+                Virtual
+              </a>
+            </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#" target="_blank">
+                      Contact us
+                  </a>
+              </li>
+          </ul>
+
+          <ul class="navbar-nav d-flex flex-row">
+            <!-- Icons -->
+            <li class="nav-item me-3 me-lg-0">
+              <a class="nav-link" href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA" rel="nofollow"
+                target="_blank">
+                <i class="fab fa-youtube"></i>
+              </a>
+            </li>
+            <li class="nav-item me-3 me-lg-0">
+              <a class="nav-link" href="https://www.facebook.com/mdbootstrap" rel="nofollow" target="_blank">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+            </li>
+            <li class="nav-item me-3 me-lg-0">
+              <a class="nav-link" href="https://twitter.com/MDBootstrap" rel="nofollow" target="_blank">
+                <i class="fab fa-twitter"></i>
+              </a>
+            </li>
+            <li class="nav-item me-3 me-lg-0">
+              <a class="nav-link" href="https://github.com/mdbootstrap/mdb-ui-kit" rel="nofollow" target="_blank">
+                <i class="fab fa-github"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar -->
+
+    <!-- Background image -->
+    <div id="intro" class="bg-image shadow-2-strong">
+      <div class="mask d-flex align-items-center h-100" style="background-color: rgba(0, 0, 0, 0.5);">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-5 col-md-8">
+              <div class="bg-white rounded shadow-5-strong p-4"> 
+
+                <form class='form-login' action="/login_new/" method="post">
+                  <!--        这里通过action以及method与view相连，然后从view中读取表单格式，渲染        -->
+                  {% if message %}
+                      <div class="alert alert-warning">{{ message }}</div>
+                  {% endif %}
+  
+                  {% csrf_token %}
+                  
+                  <div class="form-group form-outline mb-4">
+                    <!-- <input type="email" id="form1Example1" class="form-control" /> -->
+                    {{ login_form.username }}
+                    <label class="form-label" for="id_username">User name</label>
+                  </div>
+                  <div class="form-group form-outline mb-4">
+                    <!-- <input type="password" id="form1Example2" class="form-control" /> -->
+                    {{ login_form.password }}
+                    <label class="form-label" for="id_password">Password</label>
+                  </div>
+                  <div class="form-group form-outline mb-4">
+                    <!-- {{ login_form.captcha.errors }} -->
+                    <div class="col text-center">
+                      {{ login_form.captcha }}
+                    </div>
+                    <!-- <label class="form-label" for="id_captcha_1">Captcha</label> -->
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary btn-block pull-right">Submit</button>
+                  <hr />
+                  <div class="row mb-1">
+                    <div class="col text-start">
+                      <button type="reset" class="btn btn-default btn-block pull-left">Reset form</button>
+                    </div>
+                    <div class="col text-center">
+                      <button class="btn btn-default btn-block pull-left">Reset user</button>
+                    </div>
+                    
+                    <div class="col text-end">
+                      <a type="button" href="/register" class="btn btn-block btn-success pull-right">GO Register</a>
+                    </div>
+                  </div>
+                  
+                </form>
+                <!-- Email input -->
+                <!-- <div class="form-outline mb-4">
+                  <input type="email" id="form1Example1" class="form-control" />
+                  <label class="form-label" for="form1Example1">User name</label>
+                </div> -->
+
+                <!-- Password input -->
+                <!-- <div class="form-outline mb-4">
+                  <input type="password" id="form1Example2" class="form-control" />
+                  <label class="form-label" for="form1Example2">Password</label>
+                </div> -->
+
+                <!-- 2 column grid layout for inline styling -->
+                <!-- <div class="row mb-4"> -->
+                  <!-- <div class="col d-flex justify-content-center"> -->
+                    <!-- Checkbox -->
+                    <!-- <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
+                      <label class="form-check-label" for="form1Example3">
+                        Remember me
+                      </label>
+                    </div>
+                  </div> -->
+
+                  <!-- <div class="col text-center"> -->
+                    <!-- Simple link -->
+                    <!-- <a href="#!">Forgot password?</a>
+                  </div>
+                </div> -->
+
+                <!-- Submit button -->
+                <!-- <button type="submit" class="btn btn-primary btn-block">Sign in</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Background image -->
+  </header>
+  <!--Main Navigation-->
+
+  <!--Footer-->
+  <footer class="bg-light text-lg-start">
+
+
+    <div class="text-center py-4 align-items-center">
+      <p>Follow BeatSpace on social media</p>
+      <a href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA" class="btn btn-primary m-1" role="button"
+        rel="nofollow" target="_blank">
+        <i class="fab fa-youtube"></i>
+      </a>
+      <a href="https://www.facebook.com/mdbootstrap" class="btn btn-primary m-1" role="button" rel="nofollow"
+        target="_blank">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="https://twitter.com/MDBootstrap" class="btn btn-primary m-1" role="button" rel="nofollow"
+        target="_blank">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a href="https://github.com/mdbootstrap/mdb-ui-kit" class="btn btn-primary m-1" role="button" rel="nofollow"
+        target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+
+
+  </footer>
+  <!--Footer-->
+    <!-- MDB -->
+    <script type="text/javascript" src="../static/js/mdb.min.js"></script>
+    <!-- Custom scripts -->
+    <script type="text/javascript" src="../static/js/script.js"></script>
+</body>
+</html>

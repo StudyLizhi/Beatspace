@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block append_css %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous">
+{% endblock %}
+{% block append_js %}
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.0/js/fileinput.min.js"></script>
+{% endblock %}
+{% block content %}
+    <div class="content-wrapper bg-dark text-white ">
+        <div class="jumbotron bg-gradient-dark text-white">
+            <h1 class="display-4">Audio Processing</h1>
+        </div>
+        <div class="row w-75 text-center m-auto">
+            <div class="display-4"></div>
+            <table class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">Type</th>
+                        <th scope="col">Filter</th>
+                        <th scope="col">Distortion</th>
+                        <th scope="col">Delay</th>
+                        <th scope="col">|</th>
+                        <th scope="col">Convolve</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Adding</th>
+                        <td><div class="btn btn-primary w-100">Yes</div></td>
+                        <td><div class="btn btn-dark w-100" style="color: #FFF;">No</div></td>
+                        <td><div class="btn btn-dark w-100" style="color: #FFF;">No</div></td>
+                        <th scope="col">|</th>
+                        <td><div class="btn btn-dark w-100" style="color: #FFF;">No</div></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Volume</th>
+                        <td><input type="range" class="form-control-range" id="formControlRange"></td>
+                        <td><input type="range" class="form-control-range" id="formControlRange"></td>
+                        <td><input type="range" class="form-control-range" id="formControlRange"></td>
+                        <th scope="col">|</th>
+                        <td><div class="btn btn-dark w-100" style="color: #FFF;">Church</div></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Time</th>
+                        <td><input type="range" class="form-control-range" id="formControlRange"></td>
+                        <td><div class="btn btn-black w-100 disabled" style="color: #FFF;"></div></td>
+                        <td><input type="range" class="form-control-range" id="formControlRange"></td>
+                        <th scope="col">|</th>
+
+                        <td><div class="btn btn-primary w-100">Forest</div></td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">FeedBack</th>
+                        <td><div class="btn btn-black w-100 disabled" style="color: #FFF;"></div></td>
+                        <td><input type="range" class="form-control-range" id="formControlRange"> </td>
+                        <td><input type="range" class="form-control-range" id="formControlRange"> </td>
+                        <th scope="col">|</th>
+                        <td><div class="btn btn-dark w-100" style="color: #FFF;">Street</div></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">MultiChoice</th>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Filter Type
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">2x</a>
+                                    <a class="dropdown-item" href="#">4x</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Over Sample
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">2x</a>
+                                    <a class="dropdown-item" href="#">4x</a>
+                                </div>
+                            </div>
+
+                        </td>
+                        <td><div class="btn btn-black w-100 disabled" style="color: #FFF;"></div></td>
+                        <th scope="col">|</th>
+                        <td><div class="btn btn-dark w-100" style="color: #FFF;">Room</div></td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="text-center font-weight-bold mt-3 mb-2" style="color:gray;">Drag your audio file into page</div>
+        <div class="w-75 m-auto">
+            <input id="input-b2" name="input-b2" type="file" class="file" data-show-preview="false">
+        </div>
+    </div>
+{% endblock %}

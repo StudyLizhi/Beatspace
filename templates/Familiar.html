@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+{% block append_css %}
+    <link rel="stylesheet" href="{% static "css/user.css" %}">
+{% endblock %}
+{% block content %}
+    <div class="content-wrapper bg-dark text-white">
+        <div class="bg-gradient-dark text-white text-center">
+            <h1 class="display-4">Hi, {{ username }}</h1>
+            <h1 class="display-4">Your Followers & Subscribers</h1>
+        </div>
+        <div class="row mt-5">
+            <div class="col-1"></div>
+            <div class="col-5">
+                <div class="display-4"> Subscribers</div>
+{#                <ul class="list-group list-group-flush ">#}
+                {% for sub in sub_list %}
+{#                    <li class="list-group-item">#}
+                        <div class="card bg-gradient-white text-black">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-6 border-right border-primary border-1 ">
+                                    <h3 style="text-align: center" class="m-auto">{{ sub }}</h3>
+                                </div>
+                                <div class="col-1"></div>
+                                <div class="col-5">
+                                    <div class="row">
+                                        <div class="col-2" style="text-align: center">
+                                            <a href="#" class="btn btn-primary">Message</a>
+                                        </div>
+                                        <div class="col-4">
+                                        </div>
+                                        <div class="col-2">
+                                            <a href="#" class="btn btn-primary">Page</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+{#                    </li>#}
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="col-5">
+                <div class="display-4"> Followers</div>
+                <ul class="list-group list-group-flush">
+                {% for fol in fol_list %}
+{#                    <li class="list-group-item ">#}
+                        <div class="card bg-gradient-white text-black ">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-4 border-right border-primary border-1 ">
+                                        <h3 style="text-align: center">{{ fol }}</h3>
+                                    </div>
+                                    <div class="col-1"></div>
+                                    <div class="col-4" style="text-align: center">
+                                        <a href="#" class="btn btn-primary">Message</a>
+                                    </div>
+                                    <div class="col-3">
+                                        <a href="#" class="btn btn-primary">Page</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+{#                    </li>#}
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="col-1"></div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+{% load static %}
+{% block append_css %}
+    <link rel="stylesheet" href="{% static "css/user.css" %}">
+{% endblock %}
+{% block append_js %}
+    <script type="text/javascript" src="{% static 'js/UserHome.js' %}"></script>
+    <script type="text/javascript">
+        function del_audio(e){
+            console.log(e)
+            var audio_id = e
+            $.ajax({
+                url: "./delete_audio/",
+                type: 'POST',
+                data: {
+                    "audio_id":e
+                },
+                success: function (arg) {
+                    alert("delete success");
+                    location.reload()
+                }
+            })
+        }
+        function send_rename(e){
+            var music_name = document.getElementById("music_name_"+e)
+            var name = music_name.innerText
+            var re_name = document.getElementById("input_music_name_"+e).value
+            music_name.innerText = re_name
+
+            $.ajax({
+                url: "./change_music_info/",
+                type: 'POST',
+                data: {
+                    "name":name,
+                    "new_name":re_name,
+                    "id":e
+                },
+                success: function (arg) {
+                    alert("Upload Success!");
+                }
+            })
+        }
+
+
+        window.onload = function (){
+            window.addEventListener('click', play, false);
+
+{#//Play and Pause#}
+            function play(e) {
+                var id = e.target.id
+
+                if (id.startsWith("pButton")){
+                    var name = id.split("_")[1]
+                    // start music
+                    var pButton = document.getElementById(id)
+                    console.log(id.split("_"))
+                    var music = document.getElementById(name)
+                    if (music.paused) {
+                        music.play();
+                        // remove play, add pause
+                        pButton.className = "pButton fas fa-pause";
+                    } else if(music.play) { // pause music
+                        music.pause();
+                        // remove pause, add play
+                        pButton.className = "pButton fas fa-play";
+                    }
+                    var playhead = document.getElementById('playhead_' + name); // playhead
+                    var timeline = document.getElementById('timeline_' + name); // timeline
+                    var duration = music.duration; // Duration of audio clip, calculated here for embedding purposes
+                    var pButton = document.getElementById("pButton_" + name)
+                    var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
+                    function timeUpdate() {
+                        var playPercent = timelineWidth * (music.currentTime / duration);
+                        playhead.style.marginLeft = playPercent + "px";
+                        if (music.currentTime == duration) {
+                            pButton.className = "";
+                            pButton.className = "pButton fas fa-play";
+                        }
+                        console.log()
+                    }
+                    music.addEventListener("timeupdate", timeUpdate)
+                    music.addEventListener("canplaythrough", function () {
+                        duration = music.duration;
+                    }, false);
+                    var onplayhead = false
+                    window.addEventListener('mouseup', mouseUp, false);
+                    playhead.addEventListener('mousedown', mouseDown, false);
+                    function mouseDown() {
+                        onplayhead = true;
+                        window.addEventListener('mousemove', moveplayhead, true);
+                        music.removeEventListener('timeupdate', timeUpdate, false);
+                    }
+                    function mouseUp(event) {
+                        if (onplayhead == true) {
+                            moveplayhead(event);
+                            window.removeEventListener('mousemove', moveplayhead, true);
+                            // change current time
+                            music.currentTime = duration * clickPercent(event);
+                            music.addEventListener('timeupdate', timeUpdate, false);
+                        }
+                        onplayhead = false;
+                    }
+                    function moveplayhead(event) {
+                        var newMargLeft = event.clientX - getPosition(timeline);
+
+                        if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
+                            playhead.style.marginLeft = newMargLeft + "px";
+                        }
+                        if (newMargLeft < 0) {
+                            playhead.style.marginLeft = "0px";
+                        }
+                        if (newMargLeft > timelineWidth) {
+                            playhead.style.marginLeft = timelineWidth + "px";
+                        }
+                    }
+                    function getPosition(el) {
+                        return el.getBoundingClientRect().left;
+                    }
+                    function clickPercent(event) {
+                        return (event.clientX - getPosition(timeline)) / timelineWidth;
+                    }
+                    timeline.addEventListener("click", function (event) {
+                        moveplayhead(event);
+                        music.currentTime = duration * clickPercent(event);
+                    }, false);
+
+                }
+            }
+        }
+    </script>
+{% endblock %}
+{% block content %}
+    <div class="content-wrapper bg-dark text-white">
+        <!-- Content Header (Page header) -->
+        <div class="content bg-gradient-dark text-white">
+            <div class="container-fluid ">
+                <div class="jumbotron bg-gradient-dark text-white">
+                    <div class="row">
+                        <div class="col-2 text-center">
+                            <div class="w-100 h-75 mb-3" style="border-width: 3px !important;">
+                                <img src="{% static user_icon %}" class="w-75"  alt="User Image">
+                            </div>
+                                <a class="btn btn-dark btn-lg" href="{% url 'testsettings' %}">Profile Settings</a>
+                        </div>
+                        <div class="col-1"></div>
+                        <div class="col-8">
+                            <h1 class="display-3 mb-4">Welcome Back, {{ username }}</h1>
+
+                            <a class="btn btn-primary btn-lg" href="{% url 'index:home'%}" role="button">Get Started</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card bg-gradient-white text-black">
+                            <div class="card-header">
+                                <h5 class="m-0">To Virtual</h5>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title">Special title treatment</h6>
+
+                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                <a href="{% url "virtual" %}" class="btn btn-dark mr-3">Go to Visualization</a>
+                            </div>
+                        </div>
+
+                        <div class="card card-primary card-outline bg-gradient-white text-black">
+                            <div class="card-header">
+                                <h5 class="m-0">To Audio</h5>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title">Special title treatment</h6>
+
+                                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                                <a href="{% url "audio" %}" class="btn btn-dark mr-3">Go to audio stylized</a>
+                                <a href="{% url "testcoll" %}" class="btn btn-dark">Go to Collection</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-6">
+                        <div class="card bg-gradient-white text-black">
+                            <div class="card-header">
+                                <h5 class="m-0">My Audio</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    {% for audio in audios %}
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-1"></div>
+                                                <div class="col-10">
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <div id="music_name_{{ audio.audio_id }}" class="font-weight-bold text-purple lead">{{ audio.audio_name }}</div>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rename_{{ audio.audio_id }}">
+                                                                RENAME
+                                                            </button>
+                                                            <div class="modal fade" id="rename_{{ audio.audio_id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">请输入待更改的名字</h5>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <input  type="text" class="form-control" id="input_music_name_{{ audio.audio_id }}">
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="send_rename('{{ audio.audio_id }}')">Save</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-1"></div>
+                                                        <!-- Modal -->
+
+                                                        <div class="col-1">
+                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete">
+                                                                DELETE
+                                                            </button>
+                                                            <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">确认从数据库中删除？</h5>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Save">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                                                            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="del_audio( '{{ audio.audio_id }}')">Yes</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div></div>
+                                                </div>
+                                                <div class="col-1"></div>
+                                            </div>
+                                            <div class="w-100">
+                                                <audio class="music" id="{{ audio.audio_id }}" preload="true">
+                                                    <source src="{% static audio.audio_link %}">
+                                                </audio>
+                                                <div class="audioplayer" id="audioplayer_{{ audio.audio_id }}" >
+                                                    <i  id="pButton_{{ audio.audio_id }}" class="pButton fa fa-play" aria-hidden="true" style="z-index: 100;color: black"></i>
+                                                    <div class="timeline" id="timeline_{{ audio.audio_id }}">
+                                                        <div class="playhead" id="playhead_{{ audio.audio_id }}"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.col-md-6 -->
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+    </div>
+{% endblock %}

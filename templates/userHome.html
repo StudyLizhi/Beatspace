@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+{% block append_js %}
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/UserHome.js' %}"></script>
+    <script>
+        $(function(){
+            $(".masonry").masonry({
+                itemSelector: '.item'
+            })
+        })
+    </script>
+{% endblock %}
+{% block append_css %}
+    <link rel="stylesheet" href="{% static "css/user.css" %}">
+{% endblock %}
+{% block content %}
+    <div class="content-wrapper gradient-card bg-dark text-white">
+
+        <div class="jumbotron text-white bg-gradient-dark">
+            <h1 class="display-4">Hi, {{ username }}</h1>
+            <h1 class="display-4">Welcome to {{ user }}'s Page</h1>
+        </div>
+
+        <div class="view">
+            <!-- Mask & flexbox options-->
+            <div class="mask">
+                <!-- Content -->
+                <div class="container  my-4 mb-5 row masonry ">
+                    <div class="col-1 item"></div>
+                    <div class="col-3 item">
+                            <div id="mobile-box">
+                                <h4 class="my-5 h5 text-center" style="color:rgb(235, 232, 234)"></h4>
+                                <div class="card">
+                                    <div class="view">
+                                        <img class="card-img-top" src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg"
+                                             alt="Card image cap">
+                                        <a href="https://bachataurban.com/" target="_blank">
+                                            <div class="mask gradient-card"></div>
+                                        </a>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h5 class="h5 font-weight-bold"><a href="#" target="_blank">夜的第七章</a></h5>
+                                        <p class="mb-0 " style="color: black;">Jack{{ user }}</p>
+                                        <audio id="music" preload="true">
+                                            <source src="{% static "audio/demo.mp3" %}">
+                                        </audio>
+                                        <div id="audioplayer">
+                                            <i id="pButton" class="fa fa-play" aria-hidden="true" style="z-index: 100;color: black"></i>
+                                            <div id="timeline">
+                                                <div id="playhead"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="col-1 item"></div>
+                        <div class="col-3 item">
+                            <div id="mobile-box">
+                                <h4 class="my-5 h5 text-center" style="color:rgb(235, 232, 234)"></h4>
+                                <div class="card">
+                                    <div class="view">
+                                        <img class="card-img-top" src="https://mdbootstrap.com/wp-content/uploads/2019/02/flam.jpg"
+                                             alt="Card image cap">
+                                        <a href="https://bachataurban.com/" target="_blank">
+                                            <div class="mask gradient-card"></div>
+                                        </a>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <h5 class="h5 font-weight-bold"><a href="#" target="_blank">夜的第七章</a></h5>
+                                        <p class="mb-0 " style="color: black;">Jack{{ user }}</p>
+                                        <audio id="music" preload="true">
+                                            <source src="{% static "audio/demo.mp3" %}">
+                                        </audio>
+                                        <div id="audioplayer">
+                                            <i id="pButton" class="fa fa-play" aria-hidden="true" style="z-index: 100;color: black"></i>
+                                            <div id="timeline">
+                                                <div id="playhead"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                </div>
+            </div>
+
+            </div>
+            <!-- Mask & flexbox options-->
+        </div>
+        <!-- Full Page Intro -->
+    </div>
+
+{% endblock %}

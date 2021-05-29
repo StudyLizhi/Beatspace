@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+{% block append_js %}
+    <script type="text/javascript" src="{% static 'js/Clustering.js' %}"></script>
+    <script type="text/javascript">
+        function add_subscriber(e){
+            $.ajax({
+                url:"test_cluster",
+                type:'POST',
+                data: {
+                    "user_id":e
+                },
+                success: function(callback) {
+                    alert("添加成功！")
+
+                }
+            }); // end ajax
+        }
+        function add_review(e){
+            var toUser = e
+            var review = document.getElementById("input_review_"+e).value
+            console.log(review)
+            $.ajax({
+                url:"add_review",
+                type:'POST',
+                data: {
+                    "to":toUser,
+                    "content":review
+                },
+                success: function(callback) {
+                    location.reload()
+                }
+            }); // end ajax
+        }
+    </script>
+{% endblock %}
+{% block content %}
+    <div class="content-wrapper bg-dark text-white">
+        <div class="text-center bg-gradient-dark text-white">
+            <h1 class="display-4">Hi, {{ username }}</h1>
+            <h1 class="display-4">Welcome to Space Clusters</h1>
+        </div>
+        <div class="row mt-5">
+            <div class="col-1"></div>
+            <div class="col-6">
+                <div class="display-4">Most Stars</div>
+                {% for user_detail in user_details %}
+                    <div class="card bg-gradient-white text-black">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-4 display-4">{{ user_detail.user_id }}</div>
+                                <div class="col-4"></div>
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-warning" id="outline{{ user_detail.user_id }}">
+                                        Like <span id="likeNum_{{ user_detail.user_id }}" class="badge badge-light like">{{ user_detail.user_like }}</span>
+                                    </button>
+                                </div>
+                                <div class="col-1">
+                                    <button type="button" class="btn btn-primary sub" onclick="add_subscriber('{{ user_detail.user_id }}')">
+                                        Subscribe
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title font-weight-bold">Recent Review</h6>
+                            <p class="card-text">
+                                {% for review in user_detail.user_reviews %}
+                                    {{ review.From }}({{ review.Time }}): {{ review.Content }}
+                                    <br>
+                                {% endfor %}
+
+                            </p>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_review_{{ user_detail.user_id }}">
+                                Add Review
+                            </button>
+                            <div class="modal fade" id="add_review_{{ user_detail.user_id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">请输入待评论的内容</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input  type="text" class="form-control" id="input_review_{{ user_detail.user_id }}">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="add_review('{{ user_detail.user_id }}')">Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{% url "testOtherPage" user_detail.user_id %}" class="btn btn-dark mr-3">To {{ user_detail.user_id }}'s Page</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

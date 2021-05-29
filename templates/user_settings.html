@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+{% block append_js%}
+    <script type="text/javascript" src="{% static "js/userSettings.js" %}"></script>
+{% endblock %}
+{% block content %}
+    <div class="content-wrapper bg-dark text-white">
+        <div class="jumbotron bg-gradient-dark text-white">
+            <h1 class="display-3">Settings</h1>
+        </div>
+    <div class="row w-100 h-100">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <ul class="w-100 list-group">
+                <li class="list-group-item bg-dark text-light">
+                    <div class="form-group text-center">
+                        <label class= "control-label w-100" ><img  src="{% static user_icon %}" alt="" class="w-25 h-25"></label>
+                        <div class=" text-center">
+                            <label for="fileupload"class=" btn btn-default">更换头像</label>
+                            <input id="fileupload" type="file" class="form-control"  style="display: none" name="file"  >
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item  bg-dark text-light">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-6">
+                            音频质量
+                        </div>
+                        <div class="col-6">
+                   <span class="dropdown right">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                    Audio Quality
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Fluent</a>
+                    <a class="dropdown-item" href="#">Normal</a>
+                    <a class="dropdown-item" href="#">High Quality</a>
+                </div>
+            </span>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item left bg-dark text-light">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-6">
+                            下载速度限制
+                        </div>
+                        <div class="col-6">
+                   <span class="dropdown right">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                    Speed Limitation
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">无限制</a>
+                    <a class="dropdown-item" href="#">1Mbs</a>
+                    <a class="dropdown-item" href="#">500Kbs</a>
+                </div>
+            </span>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item left bg-dark text-light">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-6">
+                            自动登录
+                        </div>
+                        <div class="col-6">
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="btn btn-dark active">
+                                    <input type="checkbox">Yes
+                                </label>
+                                {#                        <label class="btn btn-dark">#}
+                                {#                            <input type="checkbox" > No#}
+                                {#                        </label>#}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item left bg-dark text-light">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-6">
+                            默认下载格式
+                        </div>
+                        <div class="col-6">
+                   <span class="dropdown right">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                    Data Format
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">wav</a>
+                    <a class="dropdown-item" href="#">mp3</a>
+                </div>
+            </span>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item left bg-dark text-light">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-6">
+                            允许他人关注
+                        </div>
+                        <div class="col-6">
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="btn btn-dark active">
+                                    <input type="checkbox">Yes
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item right bg-dark text-light">
+                    <a href="{% url "logout" %}" class="right btn btn-danger">Log Out</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    </div>
+{% endblock %}
